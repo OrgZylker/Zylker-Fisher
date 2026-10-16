@@ -1,4 +1,4 @@
-# GitHub Informer for Zoho Cliq
+# GitHub Informer for Zoho Cliq - Integration
 The GitHub Action is used to integrate GitHub and Zoho Cliq, by notifying about the GitHub Events performed, to the Zoho Cliq Channels.
 
 GitHub Informer requires the following inputs to integrate the **GitHub Actions** with your **Cliq** channels
