@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Vulnerability Test Cases - Updated</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background: #f5f5f5; }
+        .card { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #ddd; }
+        .warning { color: #b45309; font-weight: bold; }
+        .info { color: #475569; }
+        input, button { padding: 8px; margin-top: 8px; }
+        button { cursor: pointer; }
+        #output { margin-top: 10px; padding: 10px; border: 1px solid #ddd; }
+        .status { margin-top: 10px; padding: 8px; background: #f8fafc; }
+    </style>
+</head>
+<body>
+
+<h1>Safe Vulnerability Test Cases</h1>
+<p class="warning">This file intentionally contains insecure coding patterns for static-analysis testing.</p>
+<p class="info">Updated test fixture with additional security-review patterns.</p>
+
+<div class="card">
+    <h2>1. DOM XSS Pattern</h2>
+    <input type="text" id="messageInput" placeholder="Enter a message">
+    <button onclick="showMessage()">Display Message</button>
+    <div id="output"></div>
+</div>
+
+<script>
+function showMessage() {
+    const userInput = document.getElementById("messageInput").value;
+    // INTENTIONAL TEST VULNERABILITY: user-controlled data flows to innerHTML.
+    document.getElementById("output").innerHTML = userInput;
+}
+</script>
+
+<div class="card">
+    <h2>2. Hardcoded API Key</h2>
+    <button onclick="connectToService()">Connect</button>
+    <p id="apiStatus"></p>
+</div>
+
+<script>
+const API_KEY = "TEST_SECRET_API_KEY_123456789";
+const SERVICE_CLIENT_SECRET = "TEST_CLIENT_SECRET_987654321";
+
+function connectToService() {
+    document.getElementById("apiStatus").textContent = "Using configured API key.";
+}
+</script>
+
+<div class="card">
+    <h2>3. Unsafe eval()</h2>
+    <input type="text" id="calculation" placeholder="Example: 2 + 3">
+    <button onclick="calculate()">Calculate</button>
+    <p id="result"></p>
+</div>
+
+<script>
+function calculate() {
+    const expression = document.getElementById("calculation").value;
+    // INTENTIONAL TEST VULNERABILITY: dynamic input passed to eval().
+    const result = eval(expression);
+    document.getElementById("result").textContent = String(result);
+}
+</script>
+
+<div class="card">
+    <h2>4. Sensitive Token Storage</h2>
+    <button onclick="saveToken()">Save Session Token</button>
+    <button onclick="readToken()">Read Session Token</button>
+    <p id="tokenStatus" class="status"></p>
+</div>
+
+<script>
+function saveToken() {
+    const sessionToken = "TEST_SESSION_TOKEN_123456";
+    localStorage.setItem("sessionToken", sessionToken);
+    localStorage.setItem("userAccessToken", "TEST_ACCESS_TOKEN_456789");
+    document.getElementById("tokenStatus").textContent = "Token stored.";
+}
+
+function readToken() {
+    const token = localStorage.getItem("sessionToken");
+    document.getElementById("tokenStatus").textContent =
+        token ? "Token exists." : "No token found.";
+}
+</script>
+
+<div class="card">
+    <h2>5. Open Redirect Pattern</h2>
+    <input type="text" id="redirectUrl" placeholder="Enter redirect destination">
+    <button onclick="redirectUser()">Continue</button>
+</div>
+
+<script>
+function redirectUser() {
+    const destination = document.getElementById("redirectUrl").value;
+    // INTENTIONAL TEST VULNERABILITY: user-controlled redirect destination.
+    window.location.href = destination;
+}
+</script>
+
+<div class="card">
+    <h2>6. Insecure HTTP Resource</h2>
+    <!-- INTENTIONAL TEST CONDITION: HTTP resource instead of HTTPS. -->
+    <img src="https://example.test/test-image.png" alt="Test resource" width="120" height="80">
+    <p class="info">This HTTP URL is intentionally included for static-analysis testing.</p>
+</div>
+
+<div class="card">
+    <h2>7. Weak Cryptography</h2>
+    <button onclick="generateTestHash()">Generate Test Hash</button>
+    <p id="hashStatus" class="status"></p>
+</div>
+
+<script>
+function generateTestHash() {
+    // INTENTIONAL TEST VULNERABILITY: MD5 is cryptographically weak.
+    const algorithm = "MD5";
+    document.getElementById("hashStatus").textContent =
+        "Configured hash algorithm: " + algorithm;
+}
+</script>
+
+<div class="card">
+    <h2>8. Missing CSP Configuration</h2>
+    <p class="info">No Content-Security-Policy meta tag is configured in this test document.</p>
+    <button onclick="showSecurityStatus()">Check Security Configuration</button>
+    <p id="securityStatus" class="status"></p>
+</div>
+
+<script>
+function showSecurityStatus() {
+    // INTENTIONAL TEST CONDITION: CSP is intentionally absent.
+    const securityPolicyConfigured = false;
+    document.getElementById("securityStatus").textContent =
+        securityPolicyConfigured ? "Security policy configured." : "Security policy not configured.";
+}
+</script>
+
+<div class="card">
+    <h2>9. Sensitive Data in Console</h2>
+    <button onclick="debugSession()">Debug Session</button>
+    <p id="debugStatus" class="status"></p>
+</div>
+
+<script>
+function debugSession() {
+    // INTENTIONAL TEST VULNERABILITY: sensitive data is logged.
+    const debugToken = "TEST_DEBUG_TOKEN_246810";
+    console.log("Session token:", debugToken);
+    document.getElementById("debugStatus").textContent = "Debug information logged.";
+}
+</script>
+
+<div class="card">
+    <h2>10. Weak Password Validation</h2>
+    <input type="password" id="passwordInput" placeholder="Enter password">
+    <button onclick="validatePassword()">Validate</button>
+    <p id="passwordStatus" class="status"></p>
+</div>
+
+<script>
+function validatePassword() {
+    const password = document.getElementById("passwordInput").value;
+    // INTENTIONAL TEST VULNERABILITY: password policy is intentionally weak.
+    const minimumLength = 4;
+    document.getElementById("passwordStatus").textContent =
+        password.length >= minimumLength ? "Password accepted." : "Password rejected.";
+}
+</script>
+
+<!--
+Expected AI Review Findings:
+1. DOM-based XSS
+2. Hardcoded API credential
+3. Unsafe eval / code injection
+4. Sensitive data stored in localStorage
+5. Open redirect
+6. Insecure HTTP resource
+7. Weak cryptographic algorithm
+8. Missing CSP configuration
+9. Sensitive data exposure through console logging
+10. Weak password validation
+-->
+
+</body>
+</html>
