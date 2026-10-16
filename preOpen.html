@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Security policy for this standalone test page -->
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self';
+                   img-src 'self' https:;
+                   script-src 'self' 'unsafe-inline';
+                   style-src 'self' 'unsafe-inline';
+                   object-src 'none';
+                   base-uri 'self';
+                   form-action 'self';">
+
+    <title>Security Reviewed Test Cases</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .card {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .info {
+            color: #475569;
+        }
+
+        input,
+        button {
+            padding: 8px;
+            margin-top: 8px;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        #output {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            min-height: 20px;
+        }
+
+        .status {
+            margin-top: 10px;
+            padding: 8px;
+            background: #f8fafc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Security Reviewed Test Cases</h1>
+
+    <p class="info">
+        This version has been updated to address the security issues identified
+        during AI code review.
+    </p>
+
+
+    <!-- =========================================================
+         1. Safe DOM Rendering
+         ========================================================= -->
+
+    <div class="card">
+        <h2>1. Safe DOM Rendering</h2>
+
+        <input
+            type="text"
+            id="messageInput"
+            placeholder="Enter a message"
+        >
+
+        <button
+            type="button"
+            onclick="showMessage()">
+            Display Message
+        </button>
+
+        <div id="output"></div>
+    </div>
+
+
+    <!-- =========================================================
+         2. Secure API Configuration
+         ========================================================= -->
+
+    <div class="card">
+        <h2>2. API Configuration</h2>
+
+        <button
+            type="button"
+            onclick="connectToService()">
+            Connect
+        </button>
+
+        <p id="apiStatus"></p>
+    </div>
+
+
+    <!-- =========================================================
+         3. Safe Calculation
+         ========================================================= -->
+
+    <div class="card">
+        <h2>3. Safe Calculation</h2>
+
+        <input
+            type="number"
+            id="numberOne"
+            placeholder="First number"
+        >
+
+        <input
+            type="number"
+            id="numberTwo"
+            placeholder="Second number"
+        >
+
+        <button
+            type="button"
+            onclick="calculate()">
+            Calculate
+        </button>
+
+        <p id="result"></p>
+    </div>
+
+
+    <!-- =========================================================
+         4. Non-sensitive Session State
+         ========================================================= -->
+
+    <div class="card">
+        <h2>4. Session State</h2>
+
+        <button
+            type="button"
+            onclick="saveSessionState()">
+            Save Session State
+        </button>
+
+        <button
+            type="button"
+            onclick="readSessionState()">
+            Read Session State
+        </button>
+
+        <p id="tokenStatus" class="status"></p>
+    </div>
+
+
+    <!-- =========================================================
+         5. Safe Navigation
+         ========================================================= -->
+
+    <div class="card">
+        <h2>5. Safe Navigation</h2>
+
+        <button
+            type="button"
+            onclick="redirectUser()">
+            Continue
+        </button>
+    </div>
+
+
+    <!-- =========================================================
+         6. Secure HTTP Resource
+         ========================================================= -->
+
+    <div class="card">
+        <h2>6. Secure Resource</h2>
+
+        <img
+            src="https://example.test/test-image.png"
+            alt="Test resource"
+            width="120"
+            height="80"
+        >
+
+        <p class="info">
+            External resources are loaded over HTTPS.
+        </p>
+    </div>
+
+
+    <!-- =========================================================
+         7. Strong Cryptographic Algorithm
+         ========================================================= -->
+
+    <div class="card">
+        <h2>7. Cryptographic Configuration</h2>
+
+        <button
+            type="button"
+            onclick="generateTestHash()">
+            Show Hash Configuration
+        </button>
+
+        <p id="hashStatus" class="status"></p>
+    </div>
+
+
+    <!-- =========================================================
+         8. Content Security Policy
+         ========================================================= -->
+
+    <div class="card">
+        <h2>8. Content Security Policy</h2>
+
+        <p class="info">
+            A Content-Security-Policy is configured for this document.
+        </p>
+
+        <button
+            type="button"
+            onclick="showSecurityStatus()">
+            Check Security Configuration
+        </button>
+
+        <p id="securityStatus" class="status"></p>
+    </div>
+
+
+    <!-- =========================================================
+         9. Safe Debugging
+         ========================================================= -->
+
+    <div class="card">
+        <h2>9. Safe Debugging</h2>
+
+        <button
+            type="button"
+            onclick="debugSession()">
+            Debug Session
+        </button>
+
+        <p id="debugStatus" class="status"></p>
+    </div>
+
+
+    <!-- =========================================================
+         10. Strong Password Validation
+         ========================================================= -->
+
+    <div class="card">
+        <h2>10. Password Validation</h2>
+
+        <input
+            type="password"
+            id="passwordInput"
+            placeholder="Enter password"
+            autocomplete="new-password"
+        >
+
+        <button
+            type="button"
+            onclick="validatePassword()">
+            Validate
+        </button>
+
+        <p id="passwordStatus" class="status"></p>
+    </div>
+
+
+    <script>
+        "use strict";
+
+   
+        function showMessage() {
+            const userInput =
+                document.getElementById("messageInput").value;
+
+            document.getElementById("output").textContent =
+                userInput;
+        }
+
+
+        function connectToService() {
+            document.getElementById("apiStatus").textContent =
+                "Connection configuration is handled securely.";
+        }
+
+
+        function calculate() {
+            const first =
+                Number(document.getElementById("numberOne").value);
+
+            const second =
+                Number(document.getElementById("numberTwo").value);
+
+            if (!Number.isFinite(first) || !Number.isFinite(second)) {
+                document.getElementById("result").textContent =
+                    "Please enter valid numbers.";
+                return;
+            }
+
+            const result = first + second;
+
+            document.getElementById("result").textContent =
+                String(result);
+        }
+
+
+        function saveSessionState() {
+            sessionStorage.setItem(
+                "sessionState",
+                "active"
+            );
+
+            document.getElementById("tokenStatus").textContent =
+                "Non-sensitive session state stored.";
+        }
+
+        function readSessionState() {
+            const state =
+                sessionStorage.getItem("sessionState");
+
+            document.getElementById("tokenStatus").textContent =
+                state
+                    ? "Session state exists."
+                    : "No session state found.";
+        }
+
+
+        /*
+         * 5. Use a fixed trusted destination.
+         *
+         * Do not allow users to control the redirect URL.
+         */
+        function redirectUser() {
+            window.location.assign(
+                "https://example.test/"
+            );
+        }
+
+
+        /*
+         * 7. Use a modern cryptographic algorithm.
+         */
+        function generateTestHash() {
+            const algorithm = "SHA-256";
+
+            document.getElementById("hashStatus").textContent =
+                "Configured hash algorithm: " + algorithm;
+        }
+
+
+        /*
+         * 8. CSP status
+         */
+        function showSecurityStatus() {
+            document.getElementById("securityStatus").textContent =
+                "Content-Security-Policy is configured.";
+        }
+
+
+        /*
+         * 9. Do not log sensitive information.
+         */
+        function debugSession() {
+            console.info(
+                "Session debugging requested."
+            );
+
+            document.getElementById("debugStatus").textContent =
+                "Safe debug information logged.";
+        }
+
+
+        /*
+         * 10. Stronger password validation.
+         *
+         * Authentication should ultimately be handled server-side.
+         */
+        function validatePassword() {
+            const password =
+                document.getElementById("passwordInput").value;
+
+            const minimumLength = 12;
+
+            if (password.length >= minimumLength) {
+                document.getElementById("passwordStatus").textContent =
+                    "Password meets the minimum length.";
+            } else {
+                document.getElementById("passwordStatus").textContent =
+                    "Password must contain at least 12 characters.";
+            }
+        }
+    </script>
+
+</body>
+</html>
